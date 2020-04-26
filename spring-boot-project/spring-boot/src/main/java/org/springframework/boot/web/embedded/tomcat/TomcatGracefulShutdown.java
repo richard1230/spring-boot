@@ -18,7 +18,6 @@ package org.springframework.boot.web.embedded.tomcat;
 
 import java.time.Duration;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.apache.catalina.Container;
@@ -107,7 +106,9 @@ class TomcatGracefulShutdown implements GracefulShutdown {
 	private List<Connector> getConnectors() {
 		List<Connector> connectors = new ArrayList<>();
 		for (Service service : this.tomcat.getServer().findServices()) {
-			connectors.addAll(Arrays.asList(service.findConnectors()));
+			for (Connector connector : service.findConnectors()) {
+				connectors.add(connector);
+			}
 		}
 		return connectors;
 	}
